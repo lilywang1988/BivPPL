@@ -1,0 +1,82 @@
+---
+  title: "Bivariate Survival Outcome Analysis Using Penalized Partial Likelihood (BivPPL)"
+  author: "[Lili Wang](mailto:lilywang@umich.edu)"
+  date: "`r Sys.Date()`"
+  output: github_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                     comment = "#>",
+                     fig.width=12, fig.height=8,
+                     fig.path = "man/figures/README-")
+
+```
+
+## Purpose
+
+This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allow data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in (e.g. [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events. 
+
+This R package will be improved and upgraded in the near future. 
+
+
+## Install the package
+
+To install the R package from Github, you will need to install another R package "devtools". Please uncomment the codes to install them. 
+
+```{r installation, results = "hide"}
+# install.packages("devtools")
+# library(devtools)
+# install_github("lilywang1988/BivPPL")
+library(BivPPL)
+```
+
+
+
+## Vignettes
+
+Generate alternating recurrent event data using `gen.data`, `beta1` and `beta2` are regression parameters for the two events,  `theta` is defining the 3 different entries of the variance-covariance matrix of the two correlated frailties. `N` is the number of clusters or subjects in the framework of alternating recurrent events. s
+
+```{r cars}
+set.seed(100)
+N<-100 # number of clusters
+beta1 <- c(0.5,-0.3,0.5) # regression parameters for event type 1
+beta2 <- c(0.8,-0.2,0.3) # regression parameters for event type 2
+beta  <- c(beta1,beta2)
+theta <- c(0.25,0.25,-0.125) # variance-covariance matrix for the bivariate frailty (denoted as D), it is a vector (D[1,1],D[2,2], D[1,2])
+lambda01 <- 1
+lambda02 <- 1
+cen <- 10 # maximum censoring time
+centype <- TRUE # fixed censoring time at cen
+
+data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02)
+ptm<-proc.time()
+res <- BivPPL(data)
+proc.time() - ptm
+res$beta_hat
+res$beta_ASE
+res$D_hat
+
+
+# fit the model assuming the independence between the two frailties
+ptm<-proc.time()
+res2 <- BivPPL(data,independence=T)
+proc.time() - ptm
+res2$beta_hat
+res2$beta_ASE
+res2$D_hat
+
+# A likelihood ratio test
+LRT<-2*(res$LogMargProb-res2$LogMargProb)
+print(round(pchisq(abs(LRT),df=1,lower.tail = F),3))
+
+
+# sparsen the Hessian matrix
+ptm<-proc.time()
+res3 <- BivPPL(data,huge=TRUE)
+proc.time() - ptm
+res3$beta_hat
+res3$beta_ASE
+res3$D_hat
+```
+

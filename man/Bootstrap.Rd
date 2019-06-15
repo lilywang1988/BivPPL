@@ -4,7 +4,7 @@
 Boostrap for BivPPL
 }
 \description{
-Bootstrap for the standard error estimation of the regression parameters.
+Bootstrap for the standard error of the variance-covariance matrix estimators.
 }
 \usage{
 Bootstrap(data.complete, B = 50, size.limit = 200, raw = T, ...)
