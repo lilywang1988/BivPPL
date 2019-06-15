@@ -15,7 +15,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 ## Purpose
 
-This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allow data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in (e.g. [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events. 
+This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allow data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events. 
 
 This R package will be improved and upgraded in the near future. 
 
@@ -35,9 +35,9 @@ library(BivPPL)
 
 ## Vignettes
 
-Generate alternating recurrent event data using `gen.data`, `beta1` and `beta2` are regression parameters for the two events,  `theta` is defining the 3 different entries of the variance-covariance matrix of the two correlated frailties. `N` is the number of clusters or subjects in the framework of alternating recurrent events. s
+Generate alternating recurrent event data using `gen.data`, `beta1` and `beta2` are regression parameters for the two events,  `theta` is defining the 3 different entries of the variance-covariance matrix of the two correlated frailties. `N` is the number of clusters or subjects in the framework of alternating recurrent events.
 
-```{r cars}
+```{r vignettes}
 set.seed(100)
 N<-100 # number of clusters
 beta1 <- c(0.5,-0.3,0.5) # regression parameters for event type 1
@@ -79,4 +79,3 @@ res3$beta_hat
 res3$beta_ASE
 res3$D_hat
 ```
-

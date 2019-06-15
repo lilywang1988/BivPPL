@@ -6,7 +6,7 @@ Bivariate Survival Outcome Analysis Using Penalized Partial Likelihood (BivPPL)
 Purpose
 -------
 
-This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allow data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in (e.g. [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events.
+This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allow data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events.
 
 This R package will be improved and upgraded in the near future.
 
@@ -28,7 +28,7 @@ library(BivPPL)
 Vignettes
 ---------
 
-Generate alternating recurrent event data using `gen.data`, `beta1` and `beta2` are regression parameters for the two events, `theta` is defining the 3 different entries of the variance-covariance matrix of the two correlated frailties. `N` is the number of clusters or subjects in the framework of alternating recurrent events. s
+Generate alternating recurrent event data using `gen.data`, `beta1` and `beta2` are regression parameters for the two events, `theta` is defining the 3 different entries of the variance-covariance matrix of the two correlated frailties. `N` is the number of clusters or subjects in the framework of alternating recurrent events.
 
 ``` r
 set.seed(100)
@@ -47,7 +47,7 @@ ptm<-proc.time()
 res <- BivPPL(data)
 proc.time() - ptm
 #>    user  system elapsed 
-#>  20.220   0.841  21.208
+#>  20.554   0.940  21.875
 res$beta_hat
 #> [1]  0.52126635 -0.26535133  0.45676406  0.74664981 -0.06705498  0.24962866
 res$beta_ASE
@@ -63,7 +63,7 @@ ptm<-proc.time()
 res2 <- BivPPL(data,independence=T)
 proc.time() - ptm
 #>    user  system elapsed 
-#>   9.049   0.356   9.427
+#>   9.451   0.425   9.961
 res2$beta_hat
 #> [1]  0.51974445 -0.26578661  0.44356750  0.73519612 -0.06245907  0.23199444
 res2$beta_ASE
@@ -85,7 +85,7 @@ ptm<-proc.time()
 res3 <- BivPPL(data,huge=TRUE)
 proc.time() - ptm
 #>    user  system elapsed 
-#>  12.578   0.070  12.736
+#>  12.116   0.037  12.185
 res3$beta_hat
 #>         z11         z12         z13         z21         z22         z23 
 #>  0.52042943 -0.26522250  0.45584999  0.74594886 -0.06716247  0.24938898

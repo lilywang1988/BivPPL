@@ -58,8 +58,8 @@ beta1 <- c(0.5,-0.3,0.5) # regression parameters for event type 1
 beta2 <- c(0.8,-0.2,0.3) # regression parameters for event type 2
 beta  <- c(beta1,beta2)
 theta <- c(0.25,0.25,-0.125) # variance-covariance matrix for the bivariate frailty (denoted as D), it is a vector (D[1,1],D[2,2], D[1,2])
-lambda01 <- 2
-lambda02 <- 2
+lambda01 <- 10
+lambda02 <- 10
 cen <- 10 # maximum censoring time
 centype <- TRUE # fixed censoring time at cen
 
