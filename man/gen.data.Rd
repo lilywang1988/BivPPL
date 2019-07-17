@@ -8,7 +8,7 @@
   Generate input data for \code{BivPPL}
 }
 \usage{
-gen.data(N, beta1, beta2, theta,lambda01,lambda02, c = 10, Ctype = 1, const_cov = F, same_cov = F)
+gen.data(N, beta1, beta2, theta,lambda01,lambda02, c = 10, Ctype = TRUE, const_cov = F, same_cov = F)
 }
 \arguments{
   \item{N}{

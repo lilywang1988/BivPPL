@@ -49,7 +49,7 @@ lambda02 <- 1
 cen <- 10 # maximum censoring time
 centype <- TRUE # fixed censoring time at cen
 
-data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02)
+data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02,c=cen,Ctype=TRUE)
 ptm<-proc.time()
 res <- BivPPL(data)
 proc.time() - ptm
@@ -78,4 +78,23 @@ proc.time() - ptm
 res3$beta_hat
 res3$beta_ASE
 res3$D_hat
+
+# Compare with coxme
+# install.packages("coxme")
+library(coxme)
+data_coxme <- tocoxme(data) # assume that we do not know the two events are negatively associated and we transform the data to be positively associated
+ptm<-proc.time()
+res_coxme <- coxme(Surv(data_coxme$time,data_coxme$delta)~data_coxme$Z1+data_coxme$Z2+(1|data_coxme$b0)+(1|data_coxme$b1)+(1|data_coxme$b2)+strata(data_coxme$joint)) # disable the Hessian matrix sparsening and likelihood refining
+proc.time() - ptm
+res_coxme$coefficients 
+sqrt(diag(vcov(res_coxme)))
+assemble(as.vector(unlist(res_coxme$vcoef)))
+
+data_coxme_n <- tocoxme_n(data) # assume that we know the two events are negatively associated 
+ptm<-proc.time()
+res_coxme_n<- coxme(Surv(data_coxme_n$time,data_coxme_n$delta)~data_coxme_n$Z1+data_coxme_n$Z2+(data_coxme_n$Z0|data_coxme_n$b0)+(1|data_coxme_n$b1)+(1|data_coxme_n$b2)+strata(data_coxme_n$joint))
+proc.time() - ptm
+res_coxme_n$coefficients 
+sqrt(diag(vcov(res_coxme_n)))
+assemble_n(as.vector(unlist(res_coxme_n$vcoef)))
 ```
