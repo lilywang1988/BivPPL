@@ -1,6 +1,5 @@
 \name{BivPPL-package}
 \alias{BivPPL-package}
-\alias{BivPPL}
 \docType{package}
 \title{
 \packageTitle{BivPPL}
@@ -8,7 +7,7 @@
 \description{
 \packageDescription{BivPPL}
 }
-\details{
+\details{ 
 
 The DESCRIPTION file:
 \packageDESCRIPTION{BivPPL}
@@ -40,7 +39,7 @@ lambda02 <- 1
 cen <- 10 # maximum censoring time
 centype <- TRUE # fixed censoring time at cen
 
-data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02)
+data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02,c=cen,Ctype=centype)
 ptm<-proc.time()
 res <- BivPPL(data)
 proc.time() - ptm

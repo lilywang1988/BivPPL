@@ -1,7 +1,7 @@
 \name{Bootstrap}
 \alias{Bootstrap}
 \title{
-Boostrap for BivPPL
+Bootstrap for BivPPL
 }
 \description{
 Bootstrap for the standard error of the variance-covariance matrix estimators.
@@ -60,8 +60,6 @@ beta  <- c(beta1,beta2)
 theta <- c(0.25,0.25,-0.125) # variance-covariance matrix for the bivariate frailty (denoted as D), it is a vector (D[1,1],D[2,2], D[1,2])
 lambda01 <- 10
 lambda02 <- 10
-cen <- 10 # maximum censoring time
-centype <- TRUE # fixed censoring time at cen
 
 data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02)
 ptm<-proc.time()

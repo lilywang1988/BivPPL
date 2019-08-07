@@ -1,12 +1,12 @@
 Bivariate Survival Outcome Analysis Using Penalized Partial Likelihood (BivPPL)
 ================
 [Lili Wang](mailto:lilywang@umich.edu)
-2019-07-16
+2019-08-06
 
 Purpose
 -------
 
-This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allow data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events.
+This R package is to analyze bivariate survival outcomes. Here specifically, we implement this method to analyze alternating recurrent events using a bivariate correlated frailty model. Both the regression parameters and the variance-covariance matrix will be estimated. This R package allows data to have many clusters. The estimation procedure is similar to the traditional PPL method as established in [coxme](https://cran.r-project.org/web/packages/coxme/index.html), while we do not require knowing the correlation direction between the correlated two events.
 
 This R package will be improved and upgraded in the near future.
 
@@ -42,12 +42,12 @@ lambda02 <- 1
 cen <- 10 # maximum censoring time
 centype <- TRUE # fixed censoring time at cen
 
-data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02,c=cen,Ctype=TRUE)
+data <- gen.data(N,beta1,beta2,theta,lambda01,lambda02,c=cen,Ctype=centype)
 ptm<-proc.time()
 res <- BivPPL(data)
 proc.time() - ptm
 #>    user  system elapsed 
-#>  20.472   0.955  21.632
+#>  20.534   0.917  21.703
 res$beta_hat
 #> [1]  0.52126635 -0.26535133  0.45676406  0.74664981 -0.06705498  0.24962866
 res$beta_ASE
@@ -63,7 +63,7 @@ ptm<-proc.time()
 res2 <- BivPPL(data,independence=T)
 proc.time() - ptm
 #>    user  system elapsed 
-#>   9.700   0.484  10.249
+#>   9.938   0.525  10.718
 res2$beta_hat
 #> [1]  0.51974445 -0.26578661  0.44356750  0.73519612 -0.06245907  0.23199444
 res2$beta_ASE
@@ -85,7 +85,7 @@ ptm<-proc.time()
 res3 <- BivPPL(data,huge=TRUE)
 proc.time() - ptm
 #>    user  system elapsed 
-#>  13.038   0.079  13.341
+#>  13.449   0.110  13.773
 res3$beta_hat
 #>         z11         z12         z13         z21         z22         z23 
 #>  0.52042943 -0.26522250  0.45584999  0.74594886 -0.06716247  0.24938898
@@ -110,7 +110,7 @@ ptm<-proc.time()
 res_coxme <- coxme(Surv(data_coxme$time,data_coxme$delta)~data_coxme$Z1+data_coxme$Z2+(1|data_coxme$b0)+(1|data_coxme$b1)+(1|data_coxme$b2)+strata(data_coxme$joint)) # disable the Hessian matrix sparsening and likelihood refining
 proc.time() - ptm
 #>    user  system elapsed 
-#>  54.167   0.573  55.642
+#>  48.536   0.224  48.857
 res_coxme$coefficients 
 #> data_coxme$Z11 data_coxme$Z12 data_coxme$Z13 data_coxme$Z21 data_coxme$Z22 
 #>     0.52065085    -0.26593336     0.44450391     0.73457314    -0.06255747 
@@ -128,7 +128,7 @@ ptm<-proc.time()
 res_coxme_n<- coxme(Surv(data_coxme_n$time,data_coxme_n$delta)~data_coxme_n$Z1+data_coxme_n$Z2+(data_coxme_n$Z0|data_coxme_n$b0)+(1|data_coxme_n$b1)+(1|data_coxme_n$b2)+strata(data_coxme_n$joint))
 proc.time() - ptm
 #>    user  system elapsed 
-#>  63.160   0.563  64.303
+#>  57.075   0.256  57.395
 res_coxme_n$coefficients 
 #> data_coxme_n$Z11 data_coxme_n$Z12 data_coxme_n$Z13 data_coxme_n$Z21 
 #>       0.52257408      -0.26556525       0.45768187       0.74671591 
